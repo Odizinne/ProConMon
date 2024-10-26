@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/battery-critical-dark.png</file>
+        <file>icons/battery-low-dark.png</file>
+        <file>icons/battery-mid-dark.png</file>
+        <file>icons/battery-good-dark.png</file>
+        <file>icons/battery-excellent-dark.png</file>
+        <file>icons/battery-charging-dark.png</file>
+        <file>icons/battery-missing-dark.png</file>
+        <file>icons/battery-critical-light.png</file>
+        <file>icons/battery-low-light.png</file>
+        <file>icons/battery-mid-light.png</file>
+        <file>icons/battery-good-light.png</file>
+        <file>icons/battery-excellent-light.png</file>
+        <file>icons/battery-charging-light.png</file>
+        <file>icons/battery-missing-light.png</file>
+        <file>icons/icon.ico</file>
+        <file>icons/icon.png</file>
+    </qresource>
+</RCC>
