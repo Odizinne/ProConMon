@@ -16,51 +16,50 @@ ProConMon::ProConMon(QWidget *parent)
     updateTimer(new QTimer(this)),
     notificationSent(false)
 {
-    createTrayIcon();  // Create the tray icon
-    updateControllerInfos();  // Initial update
-
-    // Connect the timer's timeout signal to the update function
+    createTrayIcon();
     connect(updateTimer, &QTimer::timeout, this, &ProConMon::updateControllerInfos);
-    updateTimer->start(5000);  // Update every 5 seconds
+    updateTimer->start(5000);
 }
 
 ProConMon::~ProConMon()
 {
-    // Clean up resources
-    delete trayIcon;  // Delete the tray icon
-    delete updateTimer;  // Delete the timer
+    delete trayIcon;
+    delete updateTimer;
 }
 
 void ProConMon::createTrayIcon()
 {
-    trayIcon->setIcon(QIcon(":/icons/icon.png"));  // Set the icon
-    QMenu *trayMenu = new QMenu(this);  // Create context menu
+    trayIcon->setIcon(QIcon(":/icons/icon.png"));
+    QMenu *trayMenu = new QMenu(this);
 
-    exitAction = new QAction("Exit", this);  // Exit action
-    connect(exitAction, &QAction::triggered, &QApplication::quit);  // Connect to exit application
-    trayMenu->addAction(exitAction);  // Add action to menu
+    exitAction = new QAction("Exit", this);
+    connect(exitAction, &QAction::triggered, &QApplication::quit);
+    trayMenu->addAction(exitAction);
 
-    trayIcon->setContextMenu(trayMenu);  // Set the context menu
-    trayIcon->setToolTip("ProConMon");  // Set tooltip for the tray icon
-    trayIcon->show();  // Show the tray icon
+    trayIcon->setContextMenu(trayMenu);
+    trayIcon->setToolTip("ProConMon");
+    trayIcon->show();
 }
 
 void ProConMon::updateControllerInfos() {
-    getProControllerInfos(proconConnected, batteryLevel, charging);  // Get the current controller info
+    getProControllerInfos(proconConnected, batteryLevel, charging);
     QString status;
-    trayIcon->setIcon(getIcon(proconConnected, charging, batteryLevel, status));  // Update the icon based on status
-    trayIcon->setToolTip(status);  // Update the tooltip
+    trayIcon->setIcon(getIcon(proconConnected, charging, batteryLevel, status));
+    trayIcon->setToolTip(status);
 
-    // Notification for low battery
     if (proconConnected && !notificationSent && batteryLevel <= 25) {
         sendNotification("Low battery", QString("Pro controller has only 25% battery left."), QIcon(":/icons/icon.png"), 5000);
-        notificationSent = true;  // Mark notification as sent
+        notificationSent = true;
     } else if (proconConnected && notificationSent && batteryLevel > 25) {
-        notificationSent = false;  // Reset notification state if battery level is above 25%
+        notificationSent = false;
     }
 }
 
 void ProConMon::sendNotification(const QString &title, const QString &message, const QIcon &icon, int duration)
 {
-    trayIcon->showMessage(title, message, icon, duration);  // Display notification
+    trayIcon->showMessage(title, message, icon, duration);
+}
+
+void ProConMon::performFirstUpdate() {
+    updateControllerInfos();
 }

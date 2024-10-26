@@ -5,6 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    ProConMon w;
+    ProConMon proconMon;
+    proconMon.performFirstUpdate();
     return a.exec();
 }

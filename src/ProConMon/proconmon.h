@@ -11,20 +11,21 @@ class ProConMon : public QMainWindow
 public:
     explicit ProConMon(QWidget *parent = nullptr);
     ~ProConMon();
+    void performFirstUpdate();
 
 private slots:
     void updateControllerInfos();
 
 private:
-    QSystemTrayIcon *trayIcon;  // System tray icon
-    bool proconConnected;        // Connection status
-    int batteryLevel;           // Battery level percentage
-    bool charging;              // Charging status
-    QTimer *updateTimer;        // Timer for periodic updates
-    QAction *exitAction;        // Exit action for tray menu
-    bool notificationSent;      // Notification state
+    QSystemTrayIcon *trayIcon;
+    bool proconConnected;
+    int batteryLevel;
+    bool charging;
+    QTimer *updateTimer;
+    QAction *exitAction;
+    bool notificationSent;
 
-    void createTrayIcon();      // Method to create the system tray icon
+    void createTrayIcon();
     void sendNotification(const QString &title, const QString &message, const QIcon &icon, int duration); // Method to send notifications
 };
 
