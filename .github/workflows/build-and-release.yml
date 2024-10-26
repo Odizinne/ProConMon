@@ -68,7 +68,7 @@ jobs:
         shell: pwsh
         run: |
           cd build
-          $windeployqtPath = "D:\a\ProConMon\Qt\6.7.2\msvc2019_64\bin\windeployqt6.exe"
+          $windeployqtPath = "D:\a\ProConMon\Qt\6.7.3\msvc2019_64\bin\windeployqt6.exe"
           if (Test-Path $windeployqtPath) {
               & $windeployqtPath `
                   --exclude-plugins qsvgicon,qsvg,qico,qjpeg,qgif,qnetworklistmanager,qtuiotouchplugin `
