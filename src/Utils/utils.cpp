@@ -56,21 +56,34 @@ void Utils::getProControllerInfos(bool &proconConnected, int &batteryLevel, bool
     unsigned char data[64];
     int res = hid_read(controller, data, sizeof(data));
     if (res > 0) {
-        //qDebug() << "Received data:" << QByteArray(reinterpret_cast<char*>(data), res);
-
-        // Extract battery level information
         unsigned char battery_info = data[2];
-        batteryLevel = (battery_info >> 4) & 0xF; // High nibble for battery level
-        charging = (battery_info >> 4) & 1; // LSB for charging status
-
-        // Convert battery level to the expected return format
+        batteryLevel = (battery_info & 0xF0) >> 4;
+        qDebug() << batteryLevel;
         switch (batteryLevel) {
-        case 8: batteryLevel = 100; break;
-        case 6: batteryLevel = 75; break;
-        case 4: batteryLevel = 50; break;
-        case 2: batteryLevel = 25; break;
-        case 0: batteryLevel = 0; break;
-        default: batteryLevel = -1; // Indicate unknown
+        case 9:
+            batteryLevel = 100;
+            charging = true;
+            break;
+        case 8:
+            batteryLevel = 100;
+            charging = false;
+            break;
+        case 6:
+            batteryLevel = 75;
+            charging = false;
+            break;
+        case 4:
+            batteryLevel = 50;
+            charging = false;
+            break;
+        case 2:
+            batteryLevel = 25;
+            charging = false;
+            break;
+        default:
+            batteryLevel = -1;
+            charging = false;
+            break;
         }
 
     } else {
@@ -99,9 +112,6 @@ QString getBatteryStatus(int batteryLevel) {
     case 25:
         variant = "low";
         break;
-    case 0:
-        variant = "critical";
-        break;
     default:
         variant = "missing";
         break;
@@ -120,10 +130,12 @@ QIcon Utils::getIcon(bool proconConnected, bool charging, int batteryLevel, QStr
 
     if (charging) {
         status = "Pro controller: charging.";
+        qDebug() << QString(":/icons/battery-charging-%1.png").arg(theme);
         return QIcon(QString(":/icons/battery-charging-%1.png").arg(theme));
     } else {
         QString variant = getBatteryStatus(batteryLevel);
         status = QString("Pro controller: %1%").arg(batteryLevel);
+        qDebug() << QString(":/icons/battery-%1-%2.png").arg(variant, theme);
         return QIcon(QString(":/icons/battery-%1-%2.png").arg(variant, theme));
     }
 }

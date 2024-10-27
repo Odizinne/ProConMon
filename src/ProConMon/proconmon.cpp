@@ -68,10 +68,10 @@ void ProConMon::updateControllerInfos()
         return;
     }
 
-    if (proconConnected && !notificationSent && batteryLevel <= 25) {
+    if (proconConnected && !notificationSent && batteryLevel <= 25 && batteryLevel != -1) {
         sendNotification("Low battery", QString("Pro controller has only 25% battery left."), QIcon(":/icons/icon.png"), 5000);
         notificationSent = true;
-    } else if (proconConnected && notificationSent && batteryLevel > 25) {
+    } else if (proconConnected && notificationSent && batteryLevel > 25 && batteryLevel != -1) {
         notificationSent = false;
     }
 }
