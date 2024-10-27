@@ -1,9 +1,9 @@
 #include <QCoreApplication>
 #include <QDebug>
+#include "utils.h"
 #include <hidapi.h>
 #include <thread>
 #include <chrono>
-#include "utils.h"
 #include <QSettings>
 
 QString getTheme()
@@ -16,7 +16,8 @@ QString getTheme()
     return (value == 0) ? "light" : "dark";
 }
 
-void Utils::getProControllerInfos(bool &proconConnected, int &batteryLevel, bool &charging) {
+void Utils::getProControllerInfos(bool &proconConnected, int &batteryLevel, bool &charging)
+{
     const int VID = 0x057E;
     const int PID = 0x2009;
 
@@ -96,7 +97,8 @@ void Utils::getProControllerInfos(bool &proconConnected, int &batteryLevel, bool
     hid_exit();
 }
 
-QString getBatteryStatus(int batteryLevel) {
+QString getBatteryStatus(int batteryLevel)
+{
     QString variant;
 
     switch (batteryLevel) {
@@ -120,7 +122,8 @@ QString getBatteryStatus(int batteryLevel) {
     return variant;
 }
 
-QIcon Utils::getIcon(bool proconConnected, bool charging, int batteryLevel, QString &status) {
+QIcon Utils::getIcon(bool proconConnected, bool charging, int batteryLevel, QString &status)
+{
     QString theme = getTheme();
 
     if (!proconConnected) {
