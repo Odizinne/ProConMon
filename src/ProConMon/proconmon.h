@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QSystemTrayIcon>
+#include <QSettings>
 
 class ProConMon : public QMainWindow
 {
@@ -15,6 +16,7 @@ public:
 
 private slots:
     void updateControllerInfos();
+    void onStartupActionStateChanged();
 
 private:
     QSystemTrayIcon *trayIcon;
@@ -23,10 +25,14 @@ private:
     bool charging;
     QTimer *updateTimer;
     QAction *exitAction;
+    QAction *notificationLow;
+    QAction *startupAction;
     bool notificationSent;
-
+    QSettings settings;
     void createTrayIcon();
-    void sendNotification(const QString &title, const QString &message, const QIcon &icon, int duration); // Method to send notifications
+    void sendNotification(const QString &title, const QString &message, const QIcon &icon, int duration);
+    void loadSettings();
+    void saveSettings();
 };
 
 #endif // PROCONMON_H
