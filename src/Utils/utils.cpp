@@ -58,10 +58,10 @@ void Utils::getProControllerInfos(bool &proconConnected, int &batteryLevel, bool
     if (res > 0) {
         unsigned char battery_info = data[2];
         batteryLevel = (battery_info & 0xF0) >> 4;
-        qDebug() << batteryLevel;
+        //qDebug() << batteryLevel;
         switch (batteryLevel) {
         case 9:
-            batteryLevel = 100;
+            batteryLevel = -1;
             charging = true;
             break;
         case 8:
@@ -130,12 +130,10 @@ QIcon Utils::getIcon(bool proconConnected, bool charging, int batteryLevel, QStr
 
     if (charging) {
         status = "Pro controller: charging.";
-        qDebug() << QString(":/icons/battery-charging-%1.png").arg(theme);
         return QIcon(QString(":/icons/battery-charging-%1.png").arg(theme));
     } else {
         QString variant = getBatteryStatus(batteryLevel);
         status = QString("Pro controller: %1%").arg(batteryLevel);
-        qDebug() << QString(":/icons/battery-%1-%2.png").arg(variant, theme);
         return QIcon(QString(":/icons/battery-%1-%2.png").arg(variant, theme));
     }
 }
